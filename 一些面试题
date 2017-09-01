@@ -1,0 +1,407 @@
+1  如何居中一个浮动元素
+     1  给父级设置宽高像左定位50%  子级加浮动 向右定位50%  同时都加相对定位
+     2  父级浮动 子级也浮动 父级向左定位50%  子级向右定位50%  同时都加相对定位
+     3  用js获取元素的宽度  设置此元素的left值等于父级的宽加子级的宽除以2
+     
+2 css怎么设置在不同的浏览器下的效果
+
+  <!-[if IE 6]> 仅IE6可识别<![endif]->
+  <!-[if ite IE 6]>IE6及以下版本可识别<![!endif]->
+  <!-[if it IE 6]>IE6一下版本可识别<![endif]->
+  <!-[if gte IE 6]>IE及以上版本可识别<![endif]->
+  <!-[if gt IE 6]>IE6以上版本可识别<![endif]->
+  <!-[if IE]>所有的IE可识别<![endif]->
+  <!-[if !IE]>非IE下可识别<![endif]->
+  
+  IE6下识别不了 !important
+
+
+3 img的alt和title的异同
+
+  alt 用于图片没显示时在图片显示区域显示一个说明文字。
+  title 表示鼠标在图片上停留时，显示一个悬浮框，其中显示的文字。
+
+
+4 AJAX是什么，AJAX的交互模型（流程）？ AJAX跨域的解决办法
+  一、Ajax优缺点
+优点：
+1、最大的一点是页面无刷新，用户的体验非常好。
+2、使用异步方式与服务器通信，具有更加迅速的响应能力。
+3、可以把以前一些服务器负担的工作转嫁到客户端，利用客户端闲置的能力来处理，减轻服务器和带宽的负担，节约空间和宽带租用成本。并且减轻服务器的负担，ajax
+   的原则是“按需取数据”，可以最大程度的减少冗余请求，和响应对服务器造成的负担。
+4、基于标准化的并被广泛支持的技术，不需要下载插件或者小程序。
+缺点
+1、ajax不支持浏览器back按钮。
+       用AJAX做交互的时候,是通过js+xmlhttp来获取其他页面信息,对于浏览用户来说，是一个隐性的UE，感觉不到浏览器地址栏的URL的变化，对浏览器来说，地址
+     栏的URL没发变化，产生不了HISTORY。不是说在用AJAX做交互的时候，BACK按钮的问题就解决不了，对于AJAX应用很成熟的网站比如google等，这些都已经解决。
+     用过Gmail的知道，Gmail下面采用的ajax技术解决了这个问题，在Gmail下面是可以后退的，但是，它也并不能改变ajax的机制，即用户单击后退按钮访问历史记录
+     时，通过创建或使用一个隐藏的IFRAME来重现页面上的变更。（例如，当用户在Google Maps中单击后退时，它在一个隐藏的IFRAME中进行搜索，然后将搜索结果反
+     映到Ajax元素上，以便将应用程序状态恢复到当时的状态。）但是，虽然说这个问题是可以解决的，但是它所带来的开发成本是非常高的，和ajax框架所要求的快速
+     开发是相背离的。这是ajax所带来的一个非常严重的问题。
+2、安全问题 AJAX暴露了与服务器交互的细节。
+        ajax技术就如同对企业数据建立了一个直接通道。这使得开发者在不经意间会暴露比以前更多的数据和服务器逻辑。ajax的逻辑可以对客户端的安全扫描技术
+      隐藏起来，允许黑客从远端服务器上建立新的攻击。还有ajax也难以避免一些已知的安全弱点，诸如跨站点脚步攻击、SQL注入攻击和基于credentials的安全漏
+      洞等。
+3、对搜索引擎的支持比较弱。
+4、破坏了程序的异常机制。
+        像ajax.dll，ajaxpro.dll这些ajax框架是会破坏程序的异常机制的。
+5、不容易调试。
+       比如说违背了url和资源定位的初衷。例如，我给你一个url地址，如果采用了ajax技术，也许你在该url地址下面看到的和我在这个url地址下看到的内容是不同
+     的。这个和资源定位的初衷是相背离的。
+6、一些手持设备（如手机、PDA等）现在还不能很好的支持ajax。
+       比如说我们在手机的浏览器上打开采用ajax技术的网站时，它目前是不支持的。
+二、Ajax的交互模型
+用户发出异步请求；  
+创建 XMLHttpRequest 对象； 
+
+  var xhr = null;
+  if(window.XMLHttpRequest){
+    xhr = new XMLHttpRequest();
+  }else{
+    xhr = new ActiveXObject('Microsoft.XMLHTTP');
+  }
+
+告诉 XMLHttpRequest 对象哪个函数会处理XMLHttpRequest 对象状态的改变，为此要把对象的onReadyStateChange 属性设置为响应该事件的 JavaScript 函数
+的引用；
+
+  xhr.onreadystatechange = function(){
+  
+  }
+
+创建请求，用 open 方法指定是 get 还是 post ，是否异步， url 地址； 
+
+  if(meth == 'get'&&data){
+    url = '?'+data
+  }
+  xhr.open('meth',url,true)
+  
+  
+  发送请求， send 方法  
+  
+  if(meth == 'get'){
+    xhr.send();
+  }else{
+    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    xhr.send(data);
+  }
+  
+  
+
+接收结果并分析 
+  
+  xhr.onreadystatechange = function(){
+    if(xhr.readyState == 4){
+      if(xhr.status == 200){
+        var data = JSON.parse(data)
+      }
+    }
+  }
+
+实现刷新
+   
+   xhr.onreadystatechange = function(){
+     if(xhr.readyState == 4){
+       if(xhr.status == 200){
+         fn&&fn(xhr.responseText)
+       }
+     }
+   }
+
+
+
+
+三、Ajax的跨域问题
+              默认情况下，XHR对象只能访问与包含它的页面位于同一个域中的资源，这种安全策略可以预防某些恶意行为。
+        实现合理的跨域请求对开发某些浏览器应用程序至关重要。
+        主要有以下几种方法：
+CORS，跨域资源共享，定义了必须在访问跨域资源时，浏览览器与服务器该如何沟通，基本思想是，使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或
+响应是否成功。注意，请求和响应都不包含cookie信息。IE8通过XDomainRequest对象支持CORS，其它浏览器通过XHR对象原生支持CORS。图像Ping，多用于动态创建图
+像。该方式与服务器进行简单、单向的跨域通信。
+       它有两个主要缺点，一是只能发送GET请求，二是无法访问服务器的响应文本。
+JSONP，填充式JSON，应用JSON的一种新方法。
+       它是被包含在函数调用中的JSON，例如，
+             callback（{“name”： “abc”}）；
+       JSONP由两部分组成，毁掉函数和数据。毁掉函数是当响应到来时应该在页面中调用的函数。数据时传入毁掉函数中的JSON数据。
+Comet，是一种服务器向页面推送数据的技术。两种方式可实现，长轮询和流。
+SSE，服务器发送事件。SSE API用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。
+Web Sockets API
+
+AJAX-跨域解决之JSONP
+	  跨域的问题
+	    域：域名
+		跨域请求（访问）：一个域名下的文件请求另一个域名下的资源，就产生了跨域
+	  跨域的解决
+	    JSONP:JSON with Padding
+	      1 script 标签
+		  2 用script标签加载资源是没有跨域问题的
+		  
+		  
+		  在资源加载进来之前定义好一个函数，这个函数接受一些参数（数据），函数里面利用这个参数做一些事情，然后需要的时候通过script标签加载对应远程文件资
+   源，当远程的文件资源被加载进来的时候，就会去执行我们前面定义好的一个函数，并且把这个数据当作这个函数的参数传入进去
+
+
+5 HTML5都有哪些新的API
+  
+  1  History  API（历史记录）
+                 提供了两个新方法pushState()和replaceState()，它们允许我们添加和改变当前浏览器的地址。
+                 设置：
+                       history.pushState({username: "html5"}, "user account", "user.html");  用于向history对象添加当前页面的记录，并且改变
+                      浏览器地址栏的URL
+                       history.replaceState({username: "html5" }, "user account", "user.html"); 类似于pushState()，只是将当前页面状态替换为
+                      新的状态
+  
+  2 Notification API (桌面通知)
+                 可以使用webkitNotifications.checkPermission这个方法来判断当前Notification的许可状态。Notification的状态一共有3种：
+                       0表示PERMISSION_ALLOWED（允许）。
+                       1表示PERMISSION_NOT_ALLOWED（未作许可授权）。
+                       2表示PERMISSION_DENIED（拒绝）。
+                       
+  3 内容编辑
+     contenteditable = 'true';
+     
+  4 storage 
+     sessionStorage
+	   session临时回话，从页面打开到页面关闭的时间段
+	   窗口的临时存储，页面关闭，本地存储消失
+	 localStorage
+	   永久存储（可以手动删除数据）
+    storage特点
+	  存储量的限制（5M）
+	  客户端完成，不会请求服务器处理
+	  sessionStorage数据不共享’localStorage共享
+	  
+	Storage API
+	  setItem();
+	    设置数据，key/value类型，类型都是字符串
+		可以用获取属性的形式操作
+	  getItem();
+	    获取数据，通过key来获取到相应的value
+	  removeItem();
+	    删除数据，通过key来删除相应的vlalue
+	  clear();
+	    删除全部存储的值
+	
+	storage API
+	  存储事件
+	    当数据有修改或删除的情况下，就会触发storage事件
+		在对数据进行改变的窗口对象上是不会触发的
+		key：修改或删除的key的值，如果调用clea();key为null
+		newValue：新设置的值，如果调用removeStorage(),key为null
+		oldValue：调用改变前的value的值
+		storageArea:当前的storage对象
+		url：触发该脚本变化的文档的url
+		注：session同窗口才可以
+    
+  5 LBS ：基于地图信息的应用
+ 
+  Geolocation
+    地理位置
+	  经度 ：南北极的连接线
+	  纬度：东西连接的线
+	位置信息从何而来
+	  IP地址
+	  GPS全球定位系统
+	  WI-FI无线网络
+	  基站
+	
+	
+	地理位置对象
+	  navgator.geolocation
+	    单次定位请求：getCurrentPosition(请求成功，请求失败，数据收集方式);
+		请求成功函数
+		  经度:coords.longitude
+		  纬度：coords.latitude
+		  准确度：coords.accuracy
+		  海拔：coords.altitude
+		  海拔准确度：coords.altitudeAcuracy
+		  行进方向：coords.heading
+		  地面速度：coords.speed
+		  时间戳：new Date(position.timestamp); 
+		请求失败
+		  失败编号 code
+		  0 ：不包括其他错误编号的错误
+		  1 ：用户拒绝浏览器获取位置信息
+		  2 ：尝试获取用户信息，但失败了
+		  3 ：设置了timeout值，获取位置超时了
+		数据收集：json的形式
+		  enableHighAcuracy：更精确的查找，默认false
+		  timeout ：获取位置允许最长时间，默认infinity
+		  maximumAge ：位置可以缓存的最大时间。默认0
+		     
+	  navigator.geolocation
+	    多次定位请求：watchPosition（像setInterval）
+		  移动设备有用，位置改变才会触发
+		  配置参数：frequency 更新的频率
+		关闭更新请求
+		  clearWatch（向clearInterval） 
+      
+  6 五种使用的API
+      1.  全屏API（Fullscreen API） 
+
+        该API允许开发者以编程方式将Web应用程序全屏运行，使Web应用程序更像本地应用程序。 
+
+        Javascript代码 
+        // 找到适合浏览器的全屏方法  
+        function launchFullScreen(element) {  
+          if(element.requestFullScreen) {  
+            element.requestFullScreen();  
+          } else if(element.mozRequestFullScreen) {  
+            element.mozRequestFullScreen();  
+          } else if(element.webkitRequestFullScreen) {  
+            element.webkitRequestFullScreen();  
+          }  
+        }  
+  
+       // 启动全屏模式  
+       launchFullScreen(document.documentElement); // the whole page  
+       launchFullScreen(document.getElementById("videoElement")); // any individual element  
+
+
+     2.  页面可见性API（Page Visibility API） 
+
+        该API可以用来检测页面对于用户的可见性，即返回用户当前浏览的页面或标签的状态变化。 
+
+       Javascript代码 
+       // 设置隐藏属性和可见改变事件的名称，属性需要加浏览器前缀  
+       // since some browsers only offer vendor-prefixed support  
+       var hidden, state, visibilityChange;   
+       if (typeof document.hidden !== "undefined") {  
+          hidden = "hidden";  
+          visibilityChange = "visibilitychange";  
+          state = "visibilityState";  
+       } else if (typeof document.mozHidden !== "undefined") {  
+          hidden = "mozHidden";  
+          visibilityChange = "mozvisibilitychange";  
+          state = "mozVisibilityState";  
+       } else if (typeof document.msHidden !== "undefined") {  
+          hidden = "msHidden";  
+          visibilityChange = "msvisibilitychange";  
+          state = "msVisibilityState";  
+       } else if (typeof document.webkitHidden !== "undefined") {  
+          hidden = "webkitHidden";  
+          visibilityChange = "webkitvisibilitychange";  
+          state = "webkitVisibilityState";  
+       }  
+  
+       // 添加一个标题改变的监听器  
+       document.addEventListener(visibilityChange, function(e) {  
+       // 开始或停止状态处理  
+       }, false);  
+
+
+    3.  getUserMedia API 
+
+        该API允许Web应用程序访问摄像头和麦克风，而无需使用插件。 
+
+        Javascript代码 
+        // 设置事件监听器  
+       window.addEventListener("DOMContentLoaded", function() {  
+       // 获取元素  
+         var canvas = document.getElementById("canvas"),  
+         context = canvas.getContext("2d"),  
+         video = document.getElementById("video"),  
+         videoObj = { "video": true },  
+         errBack = function(error) {  
+           console.log("Video capture error: ", error.code);   
+         };  
+  
+        // 设置video监听器  
+        if(navigator.getUserMedia) { // Standard  
+          navigator.getUserMedia(videoObj, function(stream) {  
+            video.src = stream;  
+            video.play();  
+          }, errBack);  
+        } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed  
+          navigator.webkitGetUserMedia(videoObj, function(stream){  
+            video.src = window.webkitURL.createObjectURL(stream);  
+            video.play();  
+           }, errBack);  
+        }  
+      }, false);  
+
+
+    4.  电池API（Battery API） 
+
+         这是一个针对移动设备应用程序的API，主要用于检测设备电池信息。 
+
+        Javascript代码 
+        var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;  
+  
+       // 电池属性  
+       console.warn("Battery charging: ", battery.charging); // true  
+       console.warn("Battery level: ", battery.level); // 0.58  
+       console.warn("Battery discharging time: ", battery.dischargingTime);  
+  
+       // 添加事件监听器  
+       battery.addEventListener("chargingchange", function(e) {  
+          console.warn("Battery charge change: ", battery.charging);  
+       }, false);  
+
+
+     5.  Link Prefetching 
+
+         预加载网页内容，为浏览者提供一个平滑的浏览体验。 
+
+        Html代码 
+        <!-- full page -->  
+        <link rel="prefetch" href="http://davidwalsh.name/css-enhancements-user-experience" />  
+  
+        <!-- just an image -->  
+        <  link rel="prefetch" href="http://davidwalsh.name/wp-content/themes/walshbook3/images/sprite.png" />  
+
+  7 跨文档消息通信
+     postMessage对象
+      接受消息的窗口对象对象.postMessage()
+	  一参 ：发送的数据，二参：接收的域
+	  交互方式
+	    iframe：父页面：contentwindow,子页面：window.top
+		窗口页;父页面：window.open
+	  接收事件
+	   message
+	   ev.origin:发送数据来源的域
+	   ev.data：发送的数据
+	   
+	 XMLHttpRequest Level 2
+	   XMLHttpRequest改进版
+	     请求页面与数据页面必须属性不同的域
+		 服务器要设置响应头信息
+		 Origin值展现
+		 IE：XDomainRequest
+		 新的事件：onload等
+		 http://www.w3c.org/TR/XMLhttpRequest2
+		 http://msdn.microsoft.com/en-us/library/cc288060(VS.85).aspx
+	  
+	  进度事件
+	    upload.onprogress:上传
+		FormData对象
+		ev.total(要发的总量),ev.loaded(已发的总量)
+		onprogrss：下载
+  
+  8  /*
+  什么是worker？
+    js的单线程（放入ui队列的个数，利用定时器解决）
+	可以让web应用程序具备后台处理能力，对多线程的支持非常好
+  Worker API
+   new Worker('后台处理的js的地址');
+   利用postMessage传输数据
+   importScript('导入其他js文件');
+ */
+ 
+ /*
+   worker运行环境
+     navgatoy(浏览器信息):appName  appVersion  userAgent  platform
+	 location（浏览器网址）:所有属性都是只读的
+	 self:指向全局worker对象
+	 所有的ECMA对象，object array  Date等
+	 XMLHttprequest构造器
+	 setTimeout和setInterval方法
+	 close()方法，立刻停止worker运行
+	 importScript方法
+ */
+ 
+ 8  拖放
+  
+6 IE和FF的兼容性都知道那些
+
+
+7 如果你来制作一个访问量巨大的大型网站，你会如何管理所有的幻灯片和页面
