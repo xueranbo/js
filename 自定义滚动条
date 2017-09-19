@@ -1,0 +1,85 @@
+function mscroll(init){
+  if(!init.el){
+    return;
+  }
+  var warp = init.el;
+  var inner = init.el.children[0]; 
+  
+  var startpoint = 0;
+  var startel = 0;
+  var lasty = 0;
+  var lastdis = 0;
+  var lasttime = 0;
+  var lasttimedis = 0;
+  var maxtranslatey = warp.clientHeight - inner.offsetHeight;
+  if(!init.offbar){
+	  var scrollbar = document.createElement('div');
+	  var scale = warp.clientHeight/inner.offsetHeight;
+	  inner.style.minHeight = '100%'; 
+	  scrollbar.style.cssText = "width:6px;background:rgba(0,0,0,0.5);position:absolute;right:0px;top:0px;border-radius:3px;opacity:0;tansition:0.3s opacity;-webkit-tansition:0.3s opacity;";  
+	  warp.appendChild(scrollbar);
+  }
+  
+  css(inner,'translateZ',0.01);
+  
+  inner.addEventListener('touchstart',function(ev){
+    clearInterval(inner.timer);
+	maxtranslatey = warp.clientHeight - inner.offsetHeight;
+    startpoint = ev.changedTouches[0].pageY;
+	startel = css(inner,'translateY');
+	lasty = startel;
+	lasttime = new Date().getTime();
+	lastdis = lasttimedis = 0;
+	if(!init.offbar){
+		if(inner.offsetHeight>warp.offsetHeight){
+		  scrollbar.style.opacity = 1;
+		  scale = warp.clientHeight/inner.offsetHeight;
+		  scrollbar.style.height = warp.clientHeight*scale + 'px';
+		}
+	}
+  },false);
+  inner.addEventListener('touchmove',function(ev){
+    var nowtime = new Date().getTime();
+    var nowpoint = ev.changedTouches[0].pageY;
+	var dis = nowpoint - startpoint;
+	var translateY = dis + startel;
+	css(inner,'translateY',translateY);
+	(init.offbar)||css(scrollbar,'translateY',-translateY*scale);
+	lastdis = translateY - lasty;
+	lasty = translateY;
+	lasttimedis = nowtime - lasttime;
+	lasttime = nowtime;
+  },false);
+  inner.addEventListener('touchend',function(ev){
+    var type = 'easeOut';
+	var speed = Math.round(lastdis/lasttimedis*10);
+	speed = lasttimedis <=0 ? 0 : speed;
+	var target = Math.round(speed*20 + css(inner,'translateY'));
+	
+	if(target>0){
+	  target = 0;
+	  type = 'backOut';
+	}else if(target<=maxtranslatey){
+	  target = maxtranslatey;
+	  type = 'backOut';
+	}
+	
+	MTween({
+	  el:inner,
+	  target:{
+	    translateY:target
+	  },
+	  time:Math.round(Math.abs(target-css(inner,'translateY'))*1.5),
+	  type:type,
+	  callBack:function(){
+	     (init.offbar)||(scrollbar.style.opacity = 0);
+	  },
+	  callIn:function(){
+	    if(!init.offbar){
+	      var translateY = css(inner,'translateY');
+	      css(scrollbar,'translateY',-translateY*scale);
+		}
+	  }
+	});
+  },false);
+}
