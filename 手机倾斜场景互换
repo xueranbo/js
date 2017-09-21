@@ -1,0 +1,15 @@
+ scrollBehavior (to, from, savedPosition) { // 点击浏览器的前进后退或切换导航时触发
+    // console.log(to) // 要进入的路有对象  去向哪里
+    // console.log(from) // 要离开的路有对象  从哪里来
+    console.log(savedPosition) // 记录滚动条的坐标 点击前进后退市就会记录
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return {x: 0, y: 0}
+    }
+    // if (to.hash) { // 利用hash值来定位到某个元素
+    //   return {
+    //     selector: to.hash
+    //   }
+    // }
+  },
