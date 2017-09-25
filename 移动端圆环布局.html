@@ -1,0 +1,658 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="x5-orientation" content="portrait">
+<meta name="x5-fullscreen" content="true">
+<meta name="screen-orientation" content="portrait">
+<meta name="full-screen" content="yes">
+<title>
+无标题文档</title>
+<style>
+/*html,body{
+  height:100%;
+  overflow:hidden;
+  margin:0;
+}
+.box{
+  width:100px;
+  height:100px;
+  margin:150px auto;
+  -webkit-perspective:800px;
+  perspective:800px;
+  padding:0 100px;
+  border:1px #000 solid;
+}
+
+.div{
+  width:100px;
+  height:100px;
+  position:relative;
+  -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+  transition:3s;
+ -webkit-transform-origin: center center -153.88417685876263px;
+	transform-origin: center center -153.88417685876263px;
+}
+
+.div div{
+  position:absolute;
+  left:0;
+  top:100px;
+  transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;
+  -webkit-transform-origin:top;
+  transform-origin:top;
+  transform:rotateX(-36deg);
+  -webkit-transform:rotateX(-36deg);
+}
+.div>div{
+  top:0px;
+  transform:rotateX(0deg);
+  -webkit-transform:rotateX(0deg);
+}
+.div span{
+  width:98px;
+  height:98px;
+  border:1px #000 solid;
+  background:#ccc;
+  text-align:
+  center;font:50px/98px "宋体";
+  display:block;
+}*/
+
+* {
+	-webkit-text-size-adjust: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+body, h1, p {
+	margin: 0;
+}
+a {
+	text-decoration: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html {
+	height: 100%;
+}
+body {
+	height: 100%;
+	overflow: auto;
+}
+#header {
+	height: 1.88rem;
+	background: url(img/img5/header.png) no-repeat center center;
+	background-size: cover;
+	position: relative;
+	z-index: 3;
+	overflow: hidden;
+}
+#logo {
+	width: 4.5rem;
+	height: 1.1rem;
+	background: url(img/img5/logo.png) no-repeat;
+	background-size: 100%100%;
+	margin: .39rem auto 0;
+}
+.wrap {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 1.88rem;
+	bottom: 0;
+	min-height: 22rem;
+	overflow: auto;
+	z-index: 1;
+	background: #fbfcff;
+}
+.min {
+	height: 22rem;
+	position:absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	margin-top: -11rem;
+	overflow: hidden;
+}
+.startTime {
+	width: 13.9rem;
+	display: block;
+	margin: auto;
+}
+.btn {
+	width: 7.7rem;
+	height: 2.1rem;
+	font: 1rem / 2.1rem "微软雅黑";
+	color: #fff;
+	background: #e6778d;
+	position: absolute;
+	bottom: 1.4rem;
+	left: 4.15rem;
+	text-align: center;
+}
+.btn:active {
+	opacity: .8;
+}
+#time {
+	height: 6rem;
+	text-align: center;
+	position: relative;
+}
+#time time {
+	display: block;
+	font: 2rem / 5.5rem "微软雅黑";
+	color: #191b21;
+}
+#time p {
+	position: absolute;
+	width: 100%;
+	font: .5rem / 1 "微软雅黑";
+	color: #738797;
+	top: 4rem;
+	opacity: 0;
+	transition: .5s;
+}
+#timeWarp {
+	border-top: 1px solid #e0e7ec;
+}
+.timeHead {
+	height: 1.5rem;
+	font: .6rem / 1.5rem "微软雅黑";
+	background: #fff;	
+	color: #828590;
+	text-align: center;
+}
+.timeHead span {
+	width: 50%;
+	text-align: center;
+	box-sizing: border-box;
+	float: left;
+}
+.timeHead span:nth-of-type(1) {
+	border-right: 1px solid #e0e7ec;
+}
+#round {
+	background: #e7ecf1;
+	height: 10rem;
+	overflow: hidden;
+	border-top: 2px solid #dee5eb;
+	border-bottom: 2px solid #dee5eb;
+	position: relative;
+}
+#round:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+.roundWrap {
+	width: 4rem;
+	float: left;
+	box-sizing: border-box;	
+	position: relative;
+	height: 10rem;
+	-webkit-perspective: 1000px;
+	perspective: 1000px;
+}
+.roundWrap .bg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: url(img/img5/active.png) no-repeat;
+	background-size: 100% 100%;
+	z-index: 1;
+	opacity: 0;
+}
+.roundActive .bg{ 
+	opacity: 1;
+}
+.round {
+	width: 2.8rem;
+	height: 2.8rem;
+	position: absolute;
+	top: 3.6rem;
+	left: .6rem;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform-origin: center center -4.309rem;
+	transform-origin: center center -4.309rem;
+	z-index: 2;
+}
+.round div {
+	position: absolute;
+	left: 0;
+	top: 2.8rem;
+	width: 2.8rem;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform-origin: top;
+	transform-origin: top;
+	-webkit-transform: rotateX(-36deg);
+	transform: rotateX(-36deg);
+}
+.round>div{
+	top: 0;
+	-webkit-transform: rotateX(0deg);
+	transform: rotateX(0deg);
+}
+.round span {
+	position: absolute;
+	left: .1rem;
+	top: .1rem;
+	width: 2.6rem;
+	height: 2.6rem;
+	background: #fff;
+	text-align: center;
+	font: 1.2rem / 2.6rem "微软雅黑";
+	color: #606165;
+	border-radius: 10px;
+	box-shadow: 0 0 3px #dde5ed;
+}
+#animate .min {
+	height: auto;
+	bottom: 0;
+	top: 0;
+	margin: 0;
+}
+#animate .btn {
+	top: 19rem;
+}
+#btnGroup {
+	position: absolute;
+	width: 16rem;
+	left: 0;
+	top: 18rem;
+	padding:1rem;
+	margin-top: 4rem;
+	background: #fbfcff;
+	bottom: 0;
+	box-sizing: border-box;
+}
+.btnGroupShow {
+	margin-top: 0 !important;
+	opacity: 1  !important;
+}
+#btnGroup .btn {
+	position: static;
+	float: left;
+	width: 6.4rem;
+	height: 2.1rem;
+	margin: 0 .3rem;
+	box-sizing: border-box;
+}
+#btnGroup .btn:nth-of-type(1) {
+	border: 1px solid #a7b4bd;
+	background: #fff;
+	color: #a7b4bd;
+}
+#btnGroup .btn:nth-of-type(1):active {
+	border-color: #e15671;
+	color: #e15671;
+}
+#start {
+	z-index: 2;
+	/*-webkit-transition: .5s;
+	transition: .5s;*/
+}
+.startHide {
+	-webkit-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+#animate {
+	z-index: 1;
+}
+#timeEnd {
+	position: absolute;
+	width: 16rem;
+	background: #fff;
+	z-index: 2;
+	top: 6rem;
+	bottom: 0;
+	box-sizing: border-box;
+	border-top: 1px solid #dee5eb;
+	transition: .5s;
+	-webkit-transform: translateY(100%);
+	transform: translateY(100%);
+}
+.timeEndShow {
+	-webkit-transform: translateY(0) !important;
+	transform: translateY(0) !important;
+}
+#timeEnd .btn {
+	position: static;
+	display: block;
+	margin: 3.375rem auto 0;
+}
+#mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0);
+	display: none;
+}
+</style>
+<script>
+setSize();
+window.addEventListener("resize",setSize,false);
+window.addEventListener("orientationchange",setSize,false);
+function setSize()
+{
+	var html=document.getElementsByTagName("html")[0];
+	var width=html.getBoundingClientRect().width;
+	html.style.fontSize=width/16+"px";
+}
+</script>
+<script src="js/touchScroll1.js"></script>
+<script src="js/startMove1.js"></script>
+<script>
+
+/*
+  正n边形外角和  = 361
+  正n边形外角 = 360/n
+  正n边形
+  正切函数接受的是一个弧度
+  角度转弧度  deg*Math.PI/180
+*/
+
+window.onload = function(){
+
+  /*var box = document.getElementsByClassName('box')[0];
+  var scale = 2;
+  setlayout();
+  var oscroll = new MScroll(box,'y',false,true,true);
+  var last = 0;
+  var lasttime = 0;
+  var lastdis = 0;
+  var lasttimedis = 0;
+  oscroll.onscrollstart = function(){
+    lasttime = new Date().getTime();
+	lasttimedis = 0;
+	last = this.iScroll;
+	lastdis = 0;
+  }
+  oscroll.onscroll = function(){
+    var nowtime = new Date().getTime();
+    var deg = -this.iScroll;
+	this.oScroll.style.transform = this.oScroll.style.WebkitTransform = 'rotateX('+deg+'deg)';
+	lasttimedis = nowtime - lasttime;
+	lastdis = this.iScroll - last
+	last = this.iScroll;
+  }
+
+  oscroll.onscrollend = function(){
+    clearInterval(this.timer);
+	var dis = (lastdis/lasttimedis)*200;
+	var target = -(dis + this.iScroll);
+	var now = Math.round(target/36);
+	dis = -now*36 - this.iScroll;
+	this.tweenMove(dis,'easeOut');
+  }*/
+  
+  
+  setlayout();
+  
+  var rounds = document.getElementsByClassName('roundWrap');
+  var objtime = document.getElementById('time').getElementsByTagName('time')[0];
+  var setbtn = document.getElementById('setBtn');
+  var mask = document.getElementById('mask');
+  var startbtn = document.getElementById('startBtn');
+  var btngroup = document.getElementById('btnGroup'); 
+  var time = document.getElementById('time');
+  var op = time.getElementsByTagName('p')[0];
+  var pause = document.getElementById('pause');
+  var resetbtn = document.getElementById('reset');
+  var resetbtn2 = document.getElementById('reset2');
+  var timeend = document.getElementById('timeEnd');
+  
+  var arrscroll = [];
+  var arrnow = [];
+  var time = 0;
+  var timer = null;
+  var btngrouptop = css(btngroup,'marginTop');
+  var timeendh = timeend.offsetHeight;
+ 
+  for(var i=0;i<rounds.length;i++){
+    arrscroll[i] = new MScroll(rounds[i],'y',false,true,true);
+	toround(i);
+	arrnow[i] = 0;
+	setalpha(0,arrscroll[i].oScroll);
+  }
+  
+  startbtn.addEventListener("touchend",function(){
+    var start = document.getElementById('start');
+	mTween(start,{translateY:-start.offsetHeight},600,'easeOut');
+  },false);
+  
+  resetbtn2.addEventListener("touchend",function(){
+    clearInterval(timer);
+    for(var i=0;i<rounds.length;i++){
+	  arrscroll[i].tweenMove(0-arrscroll[i].iScroll,'easeOut'); 
+    }
+	op.style.opacity = 0;
+	mask.style.display = 'none';
+	pause.innerHTML = '暂停';
+	mTween(btngroup,{marginTop:btngrouptop},400,'easeOut');
+	mTween(timeend,{translateY:timeendh},400,'easeOut');
+  },false);
+  
+  pause.addEventListener("touchend",function(){
+    if(pause.innerHTML == '暂停'){
+	  clearInterval(timer);
+	  pause.innerHTML = '播放';
+	  op.innerHTML = '暂停中....';
+	  
+	}else{
+	  pause.innerHTML = '暂停';
+	  op.innerHTML = '正在计时...';
+	  autotime();
+	}
+  },false);
+  
+  resetbtn.addEventListener("touchend",function(){
+    clearInterval(timer);
+    for(var i=0;i<rounds.length;i++){
+	  arrscroll[i].tweenMove(0-arrscroll[i].iScroll,'easeOut'); 
+    }
+	op.style.opacity = 0;
+	mask.style.display = 'none';
+	pause.innerHTML = '暂停';
+	mTween(btngroup,{marginTop:btngrouptop},400,'easeOut');
+  },false);
+  
+  setbtn.addEventListener("touchend",function(){
+    mask.style.display = 'block';
+	time = parseInt(''+arrnow[0]+arrnow[1])*60+parseInt(''+arrnow[2]+arrnow[3]);
+	console.log(time)
+	autotime();
+	mTween(btngroup,{marginTop:0},400,'easeOut');
+	op.style.opacity = '0.8';
+	op.innerHTML = '正在计时...';
+  },false);
+  
+  function autotime(){
+    clearInterval(timer);
+	for(var i=0;i<arrnow.length;i++){
+	  var target = -(arrnow[i])*36;
+	  arrscroll[i].iScroll = target;
+	  arrscroll[i].setCss();
+	}
+	timer = setInterval(function(){
+	  time --;
+	  if(time<0){
+	    clearInterval(timer);
+		op.innerHTML = '计时结束';
+		mTween(timeend,{translateY:0},500,'easeOut');
+	  }else{
+	    var mins = todb(parseInt(time/60));
+		var secs = todb(time%60);
+		var strtime = mins+secs;
+		console.log(strtime)
+		for(var i=0;i<strtime.length;i++){
+		  autoscroll(i,strtime[i])
+		}
+	  }
+	},1000);
+  }
+  
+  function autoscroll(i,target){
+    var oscroll = arrscroll[i];
+    var otarget = -target*36;
+	var dis = otarget - oscroll.iScroll;
+	if(Math.abs(dis)>36){
+	  dis = 360 - Math.abs(dis);
+	  oscroll.tweenMove(dis,'easeOut',function(){
+	    oscroll.iScroll = otarget;
+		oscroll.setCss();
+	  });
+	}else{
+	  oscroll.tweenMove(dis,'easeOut');
+	}
+  }
+  
+  function todb(num){
+    return num<10 ? "0" + num : "" + num;
+  }
+   
+  function toround(num){
+    var oscroll = arrscroll[num];
+	var bg = oscroll.obj.getElementsByClassName('bg')[0];
+    var last = 0;
+    var lasttime = 0;
+    var lastdis = 0;
+    var lasttimedis = 0;
+	
+    oscroll.onscrollstart = function(){
+      lasttime = new Date().getTime();
+	  lasttimedis = 0;
+      last = this.iScroll;
+	  lastdis = 0;
+	  //bg.style.opacity = 1;
+	  mTween(bg,{opacity:100},600,'easeOut');
+    }
+    oscroll.onscroll = function(){
+      var nowtime = new Date().getTime();
+      var deg = -this.iScroll;
+	  this.oScroll.style.transform = this.oScroll.style.WebkitTransform = 'rotateX('+deg+'deg)';
+	  lasttimedis = nowtime - lasttime;
+	  lastdis = this.iScroll - last
+	  last = this.iScroll;
+	  var now = Math.round(deg/36);
+	  now = now%10;
+	  if(now<0){
+	    now += 10;
+	  }
+	  arrnow[num] = now;
+	  settime();
+	  setalpha(deg,this.oScroll)
+    }
+
+    oscroll.onscrollend = function(){
+	  //bg.style.opacity = 0;
+	  mTween(bg,{opacity:0},600,'easeOut');
+      clearInterval(this.timer);
+	  var speed = (lastdis/lasttimedis)
+	  speed = isNaN(speed) ? 0 : speed;
+	  var dis = speed*200;
+	  var target = -(dis + this.iScroll);
+	  var now = Math.round(target/36);
+	  if(num%2==0){
+	    if(now<0){
+		  now = 0;
+		}
+		if(now > 5){
+		  now = 5;
+		}
+	  }
+	  dis = -now*36 - this.iScroll;
+	  this.tweenMove(dis,'easeOut');
+    }
+  }
+  
+  function settime(){
+    objtime.innerHTML ='' + arrnow[0]+arrnow[1]+':'+arrnow[2]+arrnow[3];
+  }
+  
+}
+
+function setalpha(deg,spansparent){
+  var spans = spansparent.getElementsByTagName('span');
+  var deg = deg%360;
+  deg = deg<0?deg+360:deg;
+  for(var i=0;i<spans.length;i++){
+    var dis = Math.abs(i*36-deg);
+	spans[i].style.opacity = Math.abs(1-dis/36*0.2);
+  }
+}
+
+ function setlayout(){
+   var warp = document.getElementById('round');
+   var rounds = warp.getElementsByTagName('section');
+   
+   for(var i=0;i<rounds.length;i++){
+     var str = "";
+     for(var j=0;j<10;j++){
+       if(i%2 == 0&&j<4){
+	     str = '<div><span></span>'+str+'</div>';
+	   }else{
+	       str = '<div><span>'+(9-j)+'</span>'+str+'</div>';
+	   }
+     }
+     rounds[i].innerHTML = '<div class="round">'+str+'</div><div class="bg"></div>'; 
+   }
+   
+ }
+</script>
+</head>
+
+<body>
+<header id="header">
+	<h1 id="logo"></h1>
+</header>
+<article class="wrap" id="start">
+	<section class="min">
+    	<img src="img/img5/time.png" class="startTime" />
+        <a href="javascript:;" id="startBtn" class="btn" >设置时间</a>
+    </section>
+</article>
+<article class="wrap" id="animate">
+	<section class="min">
+    	<section id="time">
+        		<time>00:00</time>
+                <p>正在计时</p>
+        </section>
+        <article id="timeWarp">
+        	<header class="timeHead">
+            	<span>Minute</span>
+                <span>Second</span>
+            </header>
+            <section id="round">
+                <section class="roundWrap"></section>
+                <section class="roundWrap"></section>
+                <section class="roundWrap"></section>
+                <section class="roundWrap"></section>
+                <div id="mask"></div>
+            </section>
+        </article>
+         <a href="javascript:;" id="setBtn" class="btn" >开始计时</a>		
+         <div id="btnGroup">
+         	<a href="javascript:;" class="btn" id="reset">重置</a>
+            <a href="javascript:;" class="btn" id="pause">暂停</a>
+         </div>
+         <div id="timeEnd">
+         		<a href="javascript:;" class="btn" id="reset2">设置时间</a>
+         </div>
+    </section>
+</article>
+</body>
+</html>
+
+
+
+
+
+
