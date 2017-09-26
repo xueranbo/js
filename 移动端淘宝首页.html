@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>无标题文档</title>
+<script>
+ (function(){
+   var html = document.documentElement;
+   var hwidth = html.getBoundingClientRect().width;
+   html.style.fontSize = hwidth/15 + 'px';
+ })()
+</script>
+<style>
+  body,body*{-webkit-text-size-adjust:100%;}
+  body,h1{margin:0px;font-family:Helvetica;}
+  a,input,button{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-appearance:none;}
+  a{text-decoration:none;}
+  .rows{
+    diaplay:-webkit-box;
+	display:flex;
+	padding:0.4rem 0.5rem 0;
+  }
+  .rows div{
+    -webkit-box-flex:1;
+	flex-grow:1;
+	width:0px;
+  }
+  .rows div a{
+    font-size:.044rem;
+	color:#666;
+	text-align:center;
+	line-height:1.04rem;
+	display:block;
+  }
+  .rows div a:before{
+    content:"";
+	display:block;
+	margin:0 auto;
+	width:1.72rem;
+	height:1.7rem;
+	background:red;
+	background:url(img/img1/icon.png);
+	background-size:9rem 3.6rem;
+  }
+</style>
+</head>
+
+<body>
+<div class="rows">
+  <div>
+    <a href="javascript:;">天猫</a>
+  </div>
+  <div>
+    <a href="javascript:;">聚划算</a>
+  </div>
+  <div>
+    <a href="javascript:;">天猫国际</a>
+  </div>
+  <div>
+    <a href="javascript:;">外卖</a>
+  </div>
+  <div>
+    <a href="javascript:;">天猫超市</a>
+  </div>
+</div>
+<div class="rows">
+  <div>
+    <a href="javascript:;">天猫</a>
+  </div>
+  <div>
+    <a href="javascript:;">聚划算</a>
+  </div>
+  <div>
+    <a href="javascript:;">天猫国际</a>
+  </div>
+  <div>
+    <a href="javascript:;">外卖</a>
+  </div>
+  <div>
+    <a href="javascript:;">天猫超市</a>
+  </div>
+</div>
+</body>
+</html>
