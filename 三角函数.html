@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+*{margin:0px;padding:0px;}
+/* 
+ #div1{width:100%;position:absolute;bottom:0px;text-align:center;}
+ img{width:64px;}*/
+/* #div2{width:20px;height:20px;background:red;position:absolute;top:300px;left:800px;}*/
+/* #div3{width:20px;height:20px;background:red;position:absolute;top:300px;left:800px;}*/
+
+/*
+#div1{width:176px;height:91px;background:url(JS%E6%95%B0%E5%AD%A6%E6%8F%AD%E5%AF%86%E4%B9%8B%E3%80%90%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E3%80%91/265.png) no-repeat;position:absolute;left:300px;top:200px;}
+#div2{width:3px;height:3px;background:black;position:absolute;left:115px;top:43px;border-radius:50%;}
+#div3{width:3px;height:3px;background:black;position:absolute;left:135px;top:43px;border-radius:50%;}*/
+
+/*#div1{width:200px;height:200px;background:red;border-radius:50%;position:absolute;left:700px;top:100px;}
+#div2{width:100px;height:100px;background:blue;border-radius:50%;position:absolute;left:100px;top:270px;}*/
+
+#div1{width:50px;height:50px;background:red;position:absolute;left:100px;top:300px;}
+.box{border:1px #000 solid;position:absolute;}
+</style>
+<script>
+/*
+三角函数的概念
+  什么是三角
+  什么是函数
+  
+直角三角形
+  勾股定理
+    可以实现两点坐标求距离的应用
+	js中的平方和开方
+	列子：苹果菜单
+
+
+三角函数
+  sina  
+  cosa
+  tana
+  js中的表示语法
+  
+ 角度
+   角度与弧度的关系
+   1弧度等于的概念
+   360 = 2π
+   列子  圆周运动
+   列子  三维运动（三维旋转矩阵）
+*/
+
+/*Math.pow()  //平方
+Math.pow(2,3)  //2的立方
+Math.pow(3,2)  //3的平方
+Math.sqrt(9)  //开方
+Math.pow(3,2)+Math.pow(4,2);*/
+
+/*
+Math.sin()
+Math.cos()
+Math.tan()
+
+Math.sin(30*Math.PI/180)
+*/
+
+
+/*
+反三角函数
+ arcsinα  arccosα  arctanα
+   利用反三角函数，可以求未知的角度（或弧度）
+   js中的表示语法
+      Math.asin(1/2)*180/Math.PI;
+	  Math.acos()
+	  Math.atan()
+   
+ 例子：265网站眼睛
+   利用atan2()会简单一些
+  
+ 例子  妙味视频集合页
+ 
+ 例子  圆的碰撞
+*/
+
+/*
+  三角函数图像
+    单位圆坐标系
+	弧度与思念之间的关系
+	sin函数图象
+	列子  ：js画sin图像
+	  可配合canvas做流体运动
+	  http://www.gbtags.com/gb/debug/b096c7d1-5201-4e40-9d9e-c52dd6925ebc.htm
+*/
+
+
+/*window.onload = function(){
+  var ainput = document.getElementsByTagName('input');
+  var odiv  = document.getElementById('div1');
+  var aimg = odiv.getElementsByTagName('img');
+  
+  document.onmousemove = function(ev){
+    var ev = ev||event;
+	
+	for(var i=0;i<aimg.length;i++){
+      var x = aimg[i].offsetLeft + aimg[i].offsetWidth/2;
+	  var y = aimg[i].offsetTop + aimg[i].offsetHeight/2+odiv.offsetTop;
+	  
+	  var b = ev.clientX - x;
+	  var a = ev.clientY - y;
+	  
+	  var c = Math.floor(Math.sqrt(Math.pow(b,2)+ Math.pow(a,2)));
+	  var scale = (1-c/300).toFixed(2);
+	  if(scale<0.5){
+	    scale = 0.5;
+	  }
+	  ainput[i].value =  scale; //'x轴:' + x  + ',y轴:' + y;
+	  
+	  aimg[i].style.width = scale * 128 + 'px';
+	  aimg[i].style.height = scale * 128 + 'px';
+    }
+  }
+  
+ 
+}*/
+
+//二维圆周运动
+/*window.onload = function(){
+  var div2 = document.getElementById('div2');
+  
+  var r = 100;
+  var x = 700;
+  var y = 300;
+  
+  var num = 0;
+  
+  setInterval(function(){
+    num++;
+	//Math.sin(num*Math.PI/180) = a/r;
+	//Math.cos(num*Math.PI/180) = b/r;
+	
+	var a = Math.sin(num*Math.PI/180)*r
+	var b = Math.cos(num*Math.PI/180)*r;
+	
+	div2.style.left = x + b +'px';
+	div2.style.top = y + a + 'px';
+	
+  },30);
+  
+}*/
+
+//三位圆周运动
+
+/*window.onload = function(){
+  var div3 = document.getElementById('div3');
+  
+  var x = 700;
+  var y = 300;
+  var r = 100;
+  
+  var num = 0;
+  
+  setInterval(function(){
+    num ++;
+	var a = Math.sin(num*Math.PI/180)*r;
+	var b = Math.cos(num*Math.PI/180)*r;
+	
+	div3.style.left = x + b + 'px';
+	
+	div3.style.width = a/r*30 + 50 + 'px';
+	div3.style.height = a/r*30 + 50 + 'px';
+	
+  },30); 
+  
+}*/
+
+/*window.onload = function(){
+  var div2 = document.getElementById('div2');
+  var div3 = document.getElementById('div3');
+  
+  var r = 5;
+  var l2 = 115;
+  var t2 = 43;
+  var l3 = 135;
+  var t3 = 43;
+  
+  //atan2()  简化
+  
+  document.onmousemove = function(ev){
+    var ev = ev||event;
+	
+	change(div2,ev.clientX,ev.clientY,l2,t2);
+	change(div3,ev.clientX,ev.clientY,l3,t3);
+	
+	function change(obj,x,y,l,t){
+	  var changex = 0;
+	  var changey = 0;
+	  var b = Math.abs(x - (obj.offsetLeft+obj.parentNode.offsetLeft));
+	  var a = Math.abs(y - (obj.offsetTop+obj.parentNode.offsetTop));
+	  
+	  if(x > (obj.offsetLeft+obj.parentNode.offsetLeft)&&y<(obj.offsetTop+obj.parentNode.offsetTop)){ //右上
+	  
+	    changex = Math.sin(Math.atan(b/a))*r;
+		changey = Math.cos(Math.atan(b/a))*-r;
+	  
+	  }else if(x > (obj.offsetLeft+obj.parentNode.offsetLeft)&&y>(obj.offsetTop+obj.parentNode.offsetTop)){//右下
+	  
+	   changex = Math.sin(Math.atan(b/a))*r;
+	   changey = Math.cos(Math.atan(b/a))*r;
+	  
+	  }else if(x < (obj.offsetLeft+obj.parentNode.offsetLeft)&&y>(obj.offsetTop+obj.parentNode.offsetTop)){//左下
+	  
+	    changex = Math.sin(Math.atan(b/a))*-r;
+		changey = Math.cos(Math.atan(b/a))*r;
+	  
+	  }else if(x < (obj.offsetLeft+obj.parentNode.offsetLeft)&&y<(obj.offsetTop+obj.parentNode.offsetTop)){//左上
+	    
+		changex = Math.sin(Math.atan(b/a))*-r;
+		changey = Math.cos(Math.atan(b/a))*-r;
+		
+	  }
+	  
+	  obj.style.left = l +changex + 'px';
+	  obj.style.top = t + changey +'px';
+	  
+	}
+	
+  }
+  
+}*/
+
+//圆周碰撞
+/*window.onload = function(){
+  var div1 = document.getElementById('div1');
+  var div2 = document.getElementById('div2');
+  
+  var num = 0;
+  var x1 = 0;
+  var y1 = 0;
+  var x2 = 10;
+  var y2 = 0;
+  document.onclick = function(){
+  var timer = setInterval(function(){
+   // div2.style.left = div2.offsetLeft+10+'px';
+	
+	var a = Math.abs((div1.offsetLeft+100) - (div2.offsetLeft+50));
+	var b = Math.abs((div1.offsetTop+100) - (div2.offsetTop+50));
+	
+	var c = Math.sqrt(a*a+b*b);
+	
+	if(c<150){
+	  var ang = Math.asin(b/c);
+	  var s1 = Math.cos(ang)*x2;
+	  var s2 = Math.sin(ang)*x2
+	  
+	  var x2change1 = Math.cos(ang)*(-s1);
+	  var y2change1 = Math.sin(ang)*(s1);
+	  
+	  var x2change2 = Math.sin(ang)*s2
+	  var y2change2 = Math.cos(ang)*s2
+	  
+	  x2 = x2change1 + x2change2;
+	  y2 = y2change1 + y2change2;
+	  
+	  x1 = Math.cos(ang)*s1;
+	  y1 = Math.sin(ang)*(-s1);
+	  
+	  
+	  
+	}
+	
+	div2.style.left = div2.offsetLeft + x2 + 'px';
+	div2.style.top = div2.offsetTop + y2 + 'px';
+	
+	div1.style.left = div1.offsetLeft + x1 + 'px';
+	div1.style.top = div1.offsetTop + y1 + 'px';
+	
+	
+  },50);
+  
+  }
+  
+}*/
+
+//三角函数sin图像
+window.onload = function(){
+  var div = document.getElementById('div1');
+  
+  var num = 0;
+  var val = 50;
+  var l = 100;
+  var t = 300;
+  
+  //弧度控制 ：left
+  //sin控制  top
+  setInterval(function(){
+    num++;
+    div.style.left = l + (num*Math.PI/180)*val+'px';
+	div.style.top = t - Math.sin(num*Math.PI/180)*val+'px';
+	
+	box = document.createElement('div');
+	box.className = 'box';
+	document.body.appendChild(box);
+	box.style.left = div.offsetLeft + 'px';
+	box.style.top = div.offsetTop + 'px';
+	
+  },30);
+}
+
+</script>
+</head>
+
+<body>
+<!--<input type="text">
+<input type="text">
+<input type="text">
+<input type="text">
+<input type="text">
+<div id="div1">
+  <img src="JS数学揭密之【三角函数】/img/1.png"/>
+  <img src="JS数学揭密之【三角函数】/img/2.png"/>
+  <img src="JS数学揭密之【三角函数】/img/3.png"/>
+  <img src="JS数学揭密之【三角函数】/img/4.png"/>
+  <img src="JS数学揭密之【三角函数】/img/5.png"/>
+</div>-->
+
+<!--<div id="div2">
+-->
+<!--<div id="div3"></div>-->
+
+<!--<div id="div1">
+  <div id="div2"></div>
+  <div id="div3"></div>
+</div>-->
+
+<!--<div id="div1"></div>
+<div id="div2"></div>-->
+
+<div id="div1"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
