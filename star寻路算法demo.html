@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+*{margin:0px;padding:0px;}
+li{list-style:none;}
+#ul1{height:auto;overflow:hidden;margin:20px auto; border:1px #000 solid;border-bottom:none;border-right:none;}
+#ul1 li{border:1px #000 solid;border-top:none;border-left:none;float:left;}
+#ul1 li.sty1{background:red;}
+#ul1 li.sty2{background:green;}
+#ul1 li.sty3{background:blue;} 
+#btn{width:100px;position:absolute;left:50%;margin-left:-50px;}
+</style>
+<script>
+/*
+ 寻路模式
+    深度优先搜索
+	广度优先搜索
+	启发式搜索
+	  A*算法
+	  
+  A*估价函数
+    f(n) = g(n) + h(n);
+	  f(n)是n节点的估价函数
+	  g(n)是初始点到n节点的实际代价
+	  h(n)是n节点到目点标的实际代价
+  
+  A*算法程序实现
+    open队列
+	  排序股价函数
+	close队列
+	  排除干扰节点
+	查询相邻位置
+	封装估价函数  f() g()  h()
+	设置父节点指针
+	  
+*/
+window.onload = function(){
+
+  var oul = document.getElementById('ul1');
+  var ali = oul.getElementsByTagName('li');
+  var obtn = document.getElementById('btn');
+  var beginli = oul.getElementsByClassName('sty1');
+  var endli = oul.getElementsByClassName('sty2');
+  
+  var map = [
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,1,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,2,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,
+     0,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,
+	 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  ];
+  
+  var cols = Math.sqrt(map.length);
+  var sizegird = 20;
+  var openarr = [];
+  var closearr = [];
+  
+  init();
+  
+  function init(){
+    createmap();
+	obtn.onclick = function(){
+	  openfn();
+	}
+  }
+  
+  function createmap(){
+    
+	oul.style.width = cols * (sizegird+1) + 1 + 'px';
+	
+    for(var i=0;i<map.length;i++){
+	  var oli = document.createElement('li');
+	  oli.style.width = sizegird + 'px';
+	  oli.style.height = sizegird + 'px';
+	  oul.appendChild(oli);
+	  
+	  if(map[i] == 1){
+	    oli.className = 'sty1';
+		openarr.push(oli);
+	  }else if(map[i] == 2){
+	    oli.className = 'sty2';
+	  }else if(map[i] == 3){
+	    oli.className = 'sty3';
+		closearr.push(oli);
+	  }
+	  
+	}
+  }
+  var oendli = endli[0];
+  function openfn(){
+    var nowli = openarr.shift();
+	if(nowli == oendli){
+	 // console.log(openarr);
+	  showline()
+	  return;
+	}
+	closefn(nowli);
+	findli(nowli);
+	//console.log(openarr);
+	openarr.sort(function(li1,li2){
+	  return li1.num -li2.num;
+	});
+	//console.log(openarr);
+	openfn();
+  }
+  
+  function findli(nowli){
+    var result = [];
+	for(var i=0;i<ali.length;i++){
+	  if(filter(ali[i])){
+	    result.push(ali[i]);
+	  }
+	}
+	function filter(li){
+	  for(var i=0;i<closearr.length;i++){
+	    if(closearr[i] == li){
+		  return false;
+		}
+	  }
+	  for(var i=0;i<openarr.length;i++){
+	    if(openarr[i] == li){
+		  return false;
+		}
+	  }
+	  return true;
+	}
+	for(var i=0;i<result.length;i++){
+	  if((Math.abs(nowli.offsetLeft - result[i].offsetLeft)<=sizegird+1)&&(Math.abs(nowli.offsetTop - result[i].offsetTop)<=sizegird+1)){
+	    result[i].num = f(result[i]);
+		result[i].parent = nowli;
+	    openarr.push(result[i]);
+	  }
+	}
+  }
+  
+  function closefn(nowli){
+    closearr.push(nowli);
+  }
+  
+  function showline(){
+    var result = [];
+    var lastli = closearr.pop();
+	var inow = 0;
+	findparent(lastli);
+	function findparent(li){
+	  result.unshift(li);
+	  if(li.parent == beginli[0]){
+	    return;
+	  }
+	  findparent(li.parent);
+	}
+	var timer = setInterval(function(){
+	  result[inow].style.background = 'red';
+	  inow ++;
+	  if(inow == result.length){
+	    clearInterval(timer);
+	  }
+	},500);
+  }
+  
+  function f(nodeli){
+    return g(nodeli)+h(nodeli);
+  }
+  
+  function g(nodeli){
+    var a = beginli[0].offsetLeft - nodeli.offsetLeft;
+	var b = beginli[0].offsetTop - nodeli.offsetTop;
+	return Math.sqrt(a*a+b*b);
+  }
+  
+  function h(nodeli){
+    var a = endli[0].offsetLeft - nodeli.offsetLeft;
+	var b = endli[0].offsetTop - nodeli.offsetTop;
+	return Math.sqrt(a*a+b*b);
+  }
+
+}
+</script>
+</head>
+
+<body>
+<ul id="ul1"></ul>
+<input type="button" value="开始寻路" id="btn">
+</body>
+</html>
