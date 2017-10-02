@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+*{margin:0px;padding:0px;}
+#ul1{height:auto;margin:20px auto;overflow:hidden;border:1px #000 solid;border-right:none;border-bottom:none;background:url(img/img1/bg.jpg);background-size:cover;}
+#ul1 li{float:left;border:1px #FFF solid;border-top:none;border-left:none;list-style:none;background-size:cover;}
+#ul1 li.active{animation:0.5s infinite linear flash;-webkit-animation:0.5s infinite linear flash;}
+@keyframes flash{
+  0%{opacity:0.1}
+  50%{opacity:1}
+  100%{opacity:0.1}
+}
+@-webkit-keyframes flash{
+  0%{opacity:0.1}
+  50%{opacity:1}
+  100%{opacity:0.1}
+}
+</style>
+<script>
+/*
+  八皇后由来
+    国际象棋
+	高斯
+	92种
+	
+ 回溯算法
+   递归实现
+  程序实现
+    坐标系
+	循环递归
+	回溯
+	计数
+	收集位置
+	特效添加
+*/
+
+window.onload = function(){
+  
+  var oul = document.getElementById('ul1');
+  var ali = oul.getElementsByTagName('li');
+  var sizegird = 50;
+  var num = 8;
+  var ic = 0;
+  var posarr = [];
+  var posallarr = [];
+  
+  init();
+  
+  function init(){
+    creategird();
+	setqueen(0);
+	//console.log(posallarr);
+	showimg();
+  }
+  
+  function creategird(){
+    var len = num*num;
+	
+	oul.style.width = num*(sizegird+1)+1+'px';
+	
+	for(var i=0;i<len;i++){
+	  var oli = document.createElement('li');
+	  oli.style.width = sizegird + 'px';
+	  oli.style.height = sizegird + 'px';
+	  oli.index = -1;
+	  //oli.innerHTML = oli.index;
+	  oul.appendChild(oli);
+	}
+	
+	for(var i=0;i<num;i++){
+	  for(var j=0;j<num;j++){
+	    ali[i*num+j].x = j;
+		ali[i*num+j].y = i;
+	    //ali[i*num+j].innerHTML = j+','+i;
+	  }
+	}
+  }
+  
+  function setqueen(iqueen){
+    if(iqueen == num){
+	  posallarr.push(posarr.concat());
+	  ic ++;
+	  return;
+	}
+    for(var i=0;i<num;i++){
+	  if(ali[iqueen*num+i].index ==-1){
+	    ali[iqueen*num+i].index = iqueen;
+	    posarr.push(ali[iqueen*num+i]);
+	    var x = ali[iqueen*num+i].x;
+	    var y = ali[iqueen*num+i].y;
+	    for(var j=0;j<ali.length;j++){
+	      if(ali[j].index == -1&&(ali[j].x == x||ali[j].y == y||ali[j].x-ali[j].y == x-y||ali[j].x+ali[j].y==x+y)){
+		    ali[j].index = iqueen;
+		  }
+	    }
+	    setqueen(iqueen+1);
+		//回溯
+		posarr.pop();
+		for(var j=0;j<ali.length;j++){
+		  if(ali[j].index == iqueen){
+		    ali[j].index = -1;
+		  }
+		}
+	  }
+	}
+  }
+  
+  function showimg(){
+    change();
+	setInterval(change,2000);
+	function change(){
+	  for(var i=0;i<ali.length;i++){
+	    ali[i].style.backgroundImage = '';
+		ali[i].className = '';
+	  }
+	  var randomli = posallarr[Math.floor(posallarr.length*Math.random())];
+	  for(var i=0;i<randomli.length;i++){
+	    randomli[i].style.backgroundImage = 'url(img/img1/'+ (Math.floor(Math.random()*11+1)) +'.jpg)';
+		randomli[i].className = 'active';
+		randomli[i].style.animationDelay = -Math.floor(Math.random()*2)+ 's';
+		randomli[i].style.WebkitAnimationDelay = -(Math.random()*2)+ 's';
+	  }
+	}
+  }
+  
+}
+
+</script>
+</head>
+
+<body>
+<ul id="ul1"></ul>
+</body>
+</html>
