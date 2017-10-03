@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+/*
+
+动态规划算法
+  求解最优性质的问题
+  计算所有的可能情况
+ 
+ 贪心算法
+   在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。
+   
+ 部分背包
+   区别
+     可以拆解体积和价值
+
+*/
+
+
+
+var m = 5;
+var w = 16;
+var arrp = [4,5,10,11,13];
+var arrw = [3,4,7,8,9];
+
+/*
+
+*/
+
+function show(m,w,arrp,arrw){
+  var result = [];
+  for(var i=0;i<=m;i++){
+    result[i] = [];
+	for(var j=0;j<=w;j++){
+	  if(i == 0){
+	    result[i][j] = 0;
+	  }else if(arrw[i-1]>j){
+	    result[i][j] = result[i-1][j];
+	  }else{
+	    result[i][j] = Math.max(arrp[i-1]+result[i-1][j-arrw[i-1]],result[i-1][j]);
+	  }
+	}
+  }
+  //console.log(result);
+  return result[i-1][j-1];
+}
+
+console.log(show(m,w,arrp,arrw));
+
+
+//贪心算法
+function show1(m,w,arrp,arrw){
+  var whoarr = [];
+  var result = 0;
+  for(var i=0;i<m;i++){
+    whoarr.push({p:arrp[i],w:arrw[i],r:arrp[i]/arrw[i]});
+  }
+  //console.log(whoarr)
+  whoarr.sort(function(obj1,obj2){
+    return obj2.r - obj1.r;
+  });
+  for(var i=0;i<whoarr.length;i++){
+    if(whoarr[i].w <= w){
+	  result += whoarr[i].p
+	  w -=whoarr[i].w
+	}
+  }
+  return result;
+}
+
+console.log(show1(m,w,arrp,arrw));
+
+
+var m1 = 5;
+var w1 = 16;
+var arrp1 = [4,5,10,11,12];
+var arrw1 = [3,4,7,8,9];
+
+//贪心算法
+function show2(m,w,arrp,arrw){
+  var whoarr = [];
+  var result = 0;
+  for(var i=0;i<m;i++){
+    whoarr.push({p:arrp[i],w:arrw[i],r:arrp[i]/arrw[i]});
+  }
+  //console.log(whoarr)
+  whoarr.sort(function(obj1,obj2){
+    return obj2.r - obj1.r;
+  });
+  for(var i=0;i<whoarr.length;i++){
+    if(whoarr[i].w <= w){
+	  result += whoarr[i].p
+	  w -=whoarr[i].w
+	}else{
+	  result += w/whoarr[i].w*whoarr[i].p;
+	  break;
+	}
+  }
+  return result.toFixed(2);
+}
+
+console.log(show2(m1,w1,arrp1,arrw1));
+
+
+</script>
+</head>
+
+<body>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
