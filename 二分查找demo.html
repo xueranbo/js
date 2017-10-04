@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+ /*
+  数据检索的一个分支：一组数据结构中，找到一个特定值的方式。
+  分为两种方式
+    顺序查找
+	二分查找
+	  在一组有序数据结构中，找到特定值的一种算法。
+  
+  算法实现
+    头尾区间索引设置
+	取中间索引比较头尾区间
+	根据比较大小进行重新赋值
+ */
+ 
+ var num = 100000;
+ var randomnum = Math.ceil(Math.random()*num);
+ 
+ var arr = [];
+ for(var i = 1;i<=num;i++){
+   arr.push(i);
+ }
+ //console.log(arr)
+ 
+ function show1(arr,randomnum){
+   console.time(1);
+   for(var i=0;i<arr.length;i++){
+     if(arr[i] == randomnum){
+	   console.timeEnd(1);
+	   return arr[i];
+	 }
+   }
+ }
+
+ 
+ function show2(){
+   console.time(2)
+   var first = 0;
+   var last = arr.length-1;
+   while(first<=last){
+     var mindex = Math.floor((first+last)/2);
+	 if(randomnum<arr[mindex]){
+	   last = mindex -1;
+	 }else if(randomnum>arr[mindex]){
+	   first = mindex + 1;
+	 }else{
+	   console.timeEnd(2)
+	   return arr[mindex];
+	 }
+   }
+ }
+ console.log(show2(arr,randomnum));
+ console.log(show1(arr,randomnum));
+</script>
+</head>
+
+<body>
+</body>
+</html>
