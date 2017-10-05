@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+/*
+概率概念
+  概率是对随机事件发生的可能性的度量，一般以一个在0到1之间的实数表示一个事件发生的可能性大小。越接近1，该事件更更可能发生；越接近0，则该事件更不可能发生，公式：p(A) = n/m
+  
+  概率算法
+    树形图法
+	数学实现
+	  独立事件与非独立事件
+	  
+ 抽奖概率设置
+   区间法
+   程序实现
+*/
+
+window.onload = function(){
+
+  var obtn = document.getElementById('btn1');
+  var aspan = document.getElementsByTagName('span');
+  
+  var size = 1000;
+  var arr1 = [0.005*size,0.03*size,0.8*size];
+  var arr2 = [];
+  var num = 0;
+ 
+  
+  obtn.onclick = function(){
+    arr2 = [];
+    num = 0;
+    for(var i=0;i<arr1.length;i++){
+      num += arr1[i];
+	  arr2.push({inow:0,val:num})
+    }
+  
+    var fre = parseInt(this.value);
+	var sum = 0;
+	for(var i=0;i<fre;i++){
+	  var val = Math.random()*size;
+	  fncount(val);
+	}
+  
+    for(var i=0;i<aspan.length;i++){
+	  
+	  if(aspan.length-1 == i){
+	    aspan[i].innerHTML = fre - sum;
+	  }else{
+	    aspan[i].innerHTML = arr2[i].inow;
+		sum+=arr2[i].inow
+		
+	  }
+	}
+	
+    function fncount(val){
+      for(var i=0;i<arr2.length;i++){
+	    if(arr2[i].val>val){
+		  arr2[i].inow ++;
+		  break;
+		}
+	  }
+    }
+  
+  }
+
+}
+
+</script>
+</head>
+
+<body>
+<input type="button" value="100" id="btn1" />
+<h1>一等奖:5‰,二等奖:3%,三等奖80%,纪念奖（谢谢惠顾）</h1>
+<ul>
+  <li>一等奖：<span></span></li>
+  <li>二等奖：<span></span></li>
+  <li>三等奖：<span></span></li>
+  <li>纪念奖：<span></span></li>
+</ul>
+</body>
+</html>
