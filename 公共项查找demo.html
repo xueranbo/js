@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+/*
+公共项查找概念
+  数据检索的一个分支：从多个数据结构中，找到公共项的方式。
+ 
+公共子项查找
+  两组与多组
+  BUG修复
+ 
+最长公共字串查找
+  两组与多组
+  BUG修复
+*/
+
+var arr_arr = [[3,8,5],[1,9,4,3,6,7,5,2]];
+
+function show(arr){
+  var result = [];
+  var arr0 = unqiue(arr[0]);
+  var arr1 = unqiue(arr[1]);
+  for(var i=0;i<arr0.length;i++){
+    for(var j=0;j<arr1.length;j++){
+	  if(arr0[i] == arr1[j]){
+	    result.push(arr0[i]);
+		break;
+	  }
+	}
+  }
+  return result;
+}
+
+function unqiue(arr){
+  var json = {};
+  var result = [];
+  for(var i=0;i<arr.length;i++){
+    if(!json[arr[i]]){
+	  json[arr[i]] = 1;
+	  result.push(arr[i]);
+	}
+  }
+  return result;
+}
+
+console.log(show(arr_arr));
+
+
+//多组
+
+var arr_arr1 = [[3,8,5],[1,9,4,3,6,7,5,2],[3,4,5],[5,6,7,3]];
+
+function show1(arr){
+  var whoarr = [];
+  var json = {};
+  var result = [];
+  for(var i=0;i<arr.length;i++){
+    whoarr = whoarr.concat(unqiue1(arr[i]));
+  }
+  //console.log(whoarr)
+  for(var i=0;i<whoarr.length;i++){
+    if(!json[whoarr[i]]){
+	  json[whoarr[i]] = [whoarr[i]]
+	}else{
+	  json[whoarr[i]].push(whoarr[i]);
+	}
+  }
+  //console.log(json);
+  for(var attr in json){
+    if(json[attr].length == arr.length){
+	  result.push(attr);
+	}
+  }
+  return result;
+}
+
+function unqiue1(arr){
+  var json = {};
+  var result = [];
+  for(var i=0;i<arr.length;i++){
+    if(!json[arr[i]]){
+	  json[arr[i]] = 1;
+	  result.push(arr[i]);
+	}
+  }
+  return result;
+}
+
+console.log(show1(arr_arr1));
+
+
+//查找最长公共字串
+var arr_str = ['asdshowccccc','ddshoweeasd'];
+
+function show2(arr){
+  var str0 = arr[0];
+  var str1 = arr[1];
+  var count = 0;
+  var index = 0;
+  
+  for(var i=0;i<str0.length;i++){
+    for(var j=0;j<str1.length;j++){
+	  if(str0.charAt(i) == str1.charAt(j)){
+	    var k = 1;
+		while(str0.charAt(i+k) == str1.charAt(j+k)){
+		  k ++;
+		  if(k>count){
+		    count = k;
+			index = i;
+		  }
+		}
+	  }
+	}
+  }
+  return str0.substr(index,count);
+}
+
+console.log(show2(arr_str))
+
+//查找多组最长公共字串
+
+var arr_str1 = ['asdshow','helloshow','showi','hahashowhehe'];
+
+function show3(arr){
+  arr = sortstr(arr);
+  var firststr = arr.shift();
+  var strarr = [];
+  var count = 0;
+  var result = '';
+  //console.log(firststr);
+  for(var i=0;i<firststr.length;i++){
+    for(var j=i+1;j<=firststr.length;j++){
+	  strarr.push(firststr.substring(i,j))
+	}
+  }
+  //console.log(strarr)
+  for(var i=0;i<strarr.length;i++){
+    var whoarr = [];
+	var re = new RegExp(strarr[i]);
+	for(var j=0;j<arr.length;j++){
+	  var rearr = arr[j].match(re);
+	  if(rearr){
+	    whoarr = whoarr.concat(rearr);
+	  } 
+	}
+	if(whoarr.length == arr.length){
+	  if(whoarr[0].length>count){
+	    count = whoarr[0].length;
+		result = whoarr[0];
+	  }
+	}
+  }
+  return result;
+}
+
+function sortstr(arr){
+  return arr.sort(function(str1,str2){
+    return str1.length - str2.length;
+  });
+}
+
+console.log(show3(arr_str1));
+</script>
+</head>
+
+<body>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
