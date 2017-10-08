@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+*{margin:0px;padding:0px;}
+#ul1{/*border:1px #000 solid;border-right:none;border-bottom:none;*/height:auto;overflow:hidden;margin:20px auto;background:#003;}
+#ul1 li{float:left;/*border:1px #000 solid;border-top:none;border-left:none;*/list-style:none;}
+#ul1 li.box0{background:url(img/img3/1.jpg) no-repeat;}
+#ul1 li.box1{background:url(img/img3/2.jpg) no-repeat;}
+#ul1 li.box2{background:url(img/img3/3.jpg) no-repeat;}
+#ul1 li.box3{background:url(img/img3/4.jpg) no-repeat;}
+#ul1 li.box4{background:url(img/img3/5.jpg) no-repeat;}
+#ul1 li.box5{background:url(img/img3/6.jpg) no-repeat;}
+</style>
+<script>
+/*
+ 数据结构
+   var arr  = [
+     0,1,2,3,
+	 4,5,6,7,
+	 8,9,10,11,
+	 12,13,14,15
+   ];
+   
+   var arr1 = [
+     0,4,8,12
+	 1,5,9,13
+	 2,6,10,14
+	 3,7,11,15
+   ]
+   
+   算法实现
+     递归
+	 取模
+*/
+
+window.onload = function(){
+
+  var arr3 = {a:['a','b',3,4],b:[0,1]};
+  for(var attr in arr3){
+    alert(attr);
+  }
+ /* var arr3 = [1,2,3,4];
+  for(var i=0;i<arr3.length;i++){
+    alert(i);
+  }*/
+
+  var oul = document.getElementById('ul1');
+  var ali = oul.getElementsByTagName('li');
+  
+  var size = 7;
+  var len = size*size;
+  var sizegird = 70;
+  //var arr = [];
+  
+  //oul.style.width = size*(sizegird+1) + 'px';
+  oul.style.width = size*sizegird + 'px';
+  
+  for(var i=0;i<len;i++){
+    var oli = document.createElement('li');
+    oli.style.width = sizegird + 'px';
+	oli.style.height = sizegird + 'px';
+	//arr.push(i);
+	oli.className = 'box'+Math.floor(Math.random()*6);
+	oul.appendChild(oli);
+  }
+  
+  findelem();
+  function findelem(){
+    var result = [];
+	
+    function addarr(ali){
+	  var inum = 0;
+	  var prevli = ali[0];
+	  for(var i=0;i<ali.length;i++){
+	    if(prevli.className == ali[i].className&&i%size!=0){
+	      inum ++;
+	    }else{
+	      if(inum>=2){
+		    for(var j=0;j<=inum;j++){
+			  if(tocon(ali[(i-1)-j])){
+			    result.unshift(ali[(i-1)-j]);
+			  }
+		    }
+		  }
+		  inum = 0;
+	    }
+	    prevli = ali[i];
+	  }
+	}
+	
+	function tocon(li){
+	  for(var i=0;i<result.length;i++){
+	    if(result[i] == li){
+		  return false;
+		}
+	  }
+	  return true;
+	}
+	
+	addarr(ali);
+	addarr(changexy(ali,size))
+	
+	for(var i=0;i<ali.length;i++){
+	  ali[i].style.opacity = 0.3;
+	}
+	for(var i=0;i<result.length;i++){
+	  result[i].style.opacity = 1;
+	}
+	
+  }
+  
+  /*arr = changexy(arr,size);
+  for(var i=0;i<ali.length;i++){
+    ali[i].innerHTML = arr[i];
+  }*/
+  function changexy(arr,size){
+     var newarr = [];
+	 var inow = 0;
+	 
+	 (function(){
+	    if(size == inow){
+		  return;
+		}
+	    for(var i=0;i<arr.length;i++){
+	     if(i%size == inow){
+	       newarr.push(arr[i]);
+	     };
+	    }
+		inow ++;
+		arguments.callee(); //此匿名函数  再次执行
+	 })()
+	 
+	 return newarr;
+  }
+  
+}
+</script>
+</head>
+
+<body>
+<ul id="ul1"></ul>
+</body>
+</html>
