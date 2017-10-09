@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+*{margin:0px;padding:0px;}
+#ul1{margin:20px auto;border:1px #000 solid;border-bottom:none;border-right:none;overflow:hidden;background:url(img/img2/bg.jpg);backgrond-size:cover;}
+#ul1 li{border:1px #FFF solid;border-top:none;border-left:none;float:left;list-style:none;background-size:cover;}
+#ul1 li.active{animation:0.5s infinite linear flash;-webkit-animation:0.5s infinite linear flash;}
+@keyframes flash{
+  0%{opacity:0.1;}
+  50%{opacity:1;}
+  100%{opacity:0.1;}
+}
+@-webkit-keyframes flash{
+  0%{opacity:0.1;}
+  50%{opacity:1;}
+  100%{opacity:0.1;}
+}
+</style>
+<script>
+/*
+数据结构
+  一种特殊顺序的结构
+  成螺旋形态
+  
+  var arr = [
+    0,1,2,3,4,
+	15,16,17,18,5,
+	14,23,24,19,6,
+	13,22,21,20,7,
+	12,11,10,9,8
+  ]
+  
+  算法实现
+    设定特殊拐点
+	缩短环数
+*/
+
+window.onload = function(){
+  var oul = document.getElementById('ul1');
+  var ali = oul.getElementsByTagName('li');
+  
+  var size = 8;
+  var len = size*size;
+  var sizegird = 50;
+  var row = 0;
+  var col = 0;
+  var min = 0;
+  var max = size - 1;
+  var arr = [];
+  var bgarr = [];
+  
+  oul.style.width = size*(sizegird+1) + 'px';
+  
+  for(var i=0;i<len;i++){
+    var oli = document.createElement('li');
+	oli.style.width = sizegird + 'px';
+	oli.style.height = sizegird + 'px';
+	oul.appendChild(oli);
+  }
+  
+  for(var i=0;i<len;i++){
+    //ali[row*size+col].innerHTML = i;
+	arr.push(ali[row*size+col]);
+	if(row == min&&col<max){
+	  col = col + 1;
+	}else if(col == max&&row<max){
+	  row = row + 1;
+	}else if(row == max&&col>min){
+	  col = col - 1;
+	}else if(col == min&&row>min){
+	  row = row - 1;
+	}
+	if(row-1 == min && col == min){
+	  min = min + 1;
+	  max = max - 1;
+	}
+  }
+  
+  /*var inow = 0;
+  setInterval(function(){
+    for(var i=0;i<ali.length;i++){
+	  ali[i].style.background = '';
+	}
+	arr[inow].style.background = 'url(img/img2/1.jpg)';
+	inow ++;
+  },200);*/
+  
+  for(var i=0;i<ali.length;i++){
+    if(i%5 == 0){
+	  var bgimage = 'url(img/img2/'+ (Math.floor(Math.random()*11+1)) +'.jpg)'
+	  arr[i].style.backgroundImage = bgimage;
+	  arr[i].className = 'active';
+	  bgarr.push([i,bgimage]);
+	  
+	}
+  }
+  
+  run();
+  
+  setInterval(run,1000);
+  
+  function run(){
+    for(var i=0;i<ali.length;i++){
+	  ali[i].style.backgroundImage = '';
+	  ali[i].className = '';
+	}
+	//alert(1)
+    for(var i=0;i<bgarr.length;i++){
+	  bgarr[i][0] = bgarr[i][0]+1;
+	  if(arr[bgarr[i][0]]){
+	    arr[bgarr[i][0]].style.backgroundImage = bgarr[i][1];
+		arr[bgarr[i][0]].className = 'active';
+		arr[bgarr[i][0]].style.animationDelay = '-'+(Math.random()*2)+'s';
+		arr[bgarr[i][0]].style.WebkitAnimationDelay = '-'+(Math.random()*2)+'s';
+	  }else{
+	    bgarr.pop();
+		var bgimage = 'url(img/img2/'+(Math.floor(Math.random()*11+1))+'.jpg)';
+		bgarr.unshift([0,bgimage]);
+	  }
+	}
+  }
+  
+}
+</script>
+</head>
+
+<body>
+<ul id="ul1"></ul>
+</body>
+</html>
+
+
+
+
+
+
