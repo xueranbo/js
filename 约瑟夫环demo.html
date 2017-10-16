@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+/*
+ 传说在犹太战争中，约瑟夫和他的一个朋友还有39个犹太人士兵被罗马军队包围在一个山洞中。他们决定誓死不投降，所以商量出一个自杀的方案。他们围城一个圈，从第一个人开始，数到第三个人时将第三个人杀死，然后在数，直到杀死所有人。约瑟夫和他的朋友决定不参加这个疯狂的游戏，他们快速的计算出了两个位置，站在那里得以生存。
+
+链表
+  跟数组的区别
+  链表是由一组节点组成的集合，每个节点都使用一个对象的引用指向它的后继
+  指向另一个节点的引用叫做链
+  查找
+  添加
+  删除
+  循环链表
+
+*/
+
+window.onload = function(){
+
+ function node(elem){
+   this.elem = elem;
+   this.next = null;
+ }
+ 
+ function list(){
+   this.head = new node('head');
+   this.head.next = this.head;
+   this.length = 0;
+ }
+ 
+ list.prototype.find = function(item){
+   var currnode = this.head;
+   while(currnode.elem != item){
+     currnode = currnode.next;
+   }
+   return currnode;
+ }
+ 
+ list.prototype.findprev = function(item){
+   var currnode = this.head;
+   while(currnode.elem != null && currnode.next.elem != item){
+     currnode = currnode.next;
+   }
+   return currnode;
+ }
+ 
+ list.prototype.remove = function(item){
+   var prevnode = this.findprev(item);
+   var currnode = this.find(item);
+   prevnode.next = currnode.next;
+   this.length --;
+ }
+ 
+ list.prototype.insert = function(newelem,item){
+   var newnode = new node(newelem);
+   var currnode = this.find(item);
+   newnode.next = currnode.next;
+   currnode.next = newnode;
+   this.length ++;
+ }
+ 
+ list.prototype.display = function(){
+   var currnode = this.head;
+   var result = [];
+   while(currnode.next != null&&currnode.next.elem != 'head' ){
+     result.push(currnode.next.elem);
+     currnode = currnode.next;
+   }
+   return result;
+ }
+ 
+ /*var obj = new list();
+ obj.insert('a','head');
+ obj.insert('b','a')
+ obj.insert('c','b')
+ obj.insert('d','a')
+ 
+ //console.log(obj.find('head'));
+ console.log(obj.display());
+ obj.remove('a');
+ obj.remove('b');
+ console.log(obj.display());*/
+ 
+ function killgame(num,step){
+   var people = new list();
+   people.insert(1,'head');
+   
+   for(var i=1;i<num;i++){
+     people.insert(i+1,i);
+   }
+   
+   console.log(people.display());
+   
+   var inow = 0;
+   var dir = 'head';
+   function whilefn(){
+     if(people.length<step){
+	   return;
+	 }
+	 inow ++;
+	 dir = people.find(dir).next.elem;
+	 if(dir == 'head'){
+	   dir = people.find(dir).next.elem;
+	 }
+	 if(inow == step){
+	   var removedir = dir;
+	   dir = people.findprev(dir).elem;
+	   people.remove(removedir);
+	   inow = 0;
+	 }
+	 whilefn();
+   }
+   whilefn();
+   console.log('幸运'+people.display())
+ }
+ 
+ killgame(100,2);
+ 
+}
+
+</script>
+</head>
+
+<body>
+</body>
+</html>
